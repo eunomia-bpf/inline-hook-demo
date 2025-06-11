@@ -10,8 +10,7 @@
 static void inline_hook_replace_inst(void *orig_func, void *hook_func) {
     	// Write a jump instruction at the start of the original function.
 	*((unsigned char *)orig_func + 0) = 0xE9; // JMP instruction
-	*((void **)((unsigned char *)orig_func + 1)) =
-		(unsigned char *)hook_func - (unsigned char *)orig_func - 5;
+	*((void **)((unsigned char *)orig_func + 1)) = (void *)((unsigned char *)hook_func - (unsigned char *)orig_func - 5);
 }
 #elif defined(__aarch64__) || defined(_M_ARM64)
 #define SIZE_ORIG_BYTES 32

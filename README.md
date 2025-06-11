@@ -120,6 +120,56 @@ Hello from hook!
 Hello, world!
 ```
 
+## Performance Benchmark
+
+A comprehensive benchmark is included to measure the performance impact of inline hooking:
+
+```console
+$ make benchmark
+$ ./benchmark-maps
+```
+
+The benchmark measures:
+
+1. **Function Call Overhead**: Compares direct function calls vs hooked function calls
+2. **Hook Installation Time**: Measures the time to install and remove hooks
+3. **Complex Function Impact**: Tests with functions that have more computational work
+
+Example output:
+```
+Inline Hook Performance Benchmark
+==================================
+Iterations: 1000000
+Warmup iterations: 10000
+
+1. Simple Function Call Benchmark:
+   Direct calls:    2.50 ns/call
+   Hooked calls:    3.10 ns/call
+   Overhead:        0.60 ns/call (1.2x slower)
+   Verification:    Direct=1000000, Hooked=2000000 (should be 2x)
+
+2. Complex Function Call Benchmark:
+   Direct calls:    45.20 ns/call
+   Hooked calls:    45.80 ns/call
+   Overhead:        0.60 ns/call (1.0x slower)
+
+3. Hook Installation/Removal Benchmark:
+   Hook install+remove: 1250.00 ns/operation
+
+Summary:
+--------
+Simple function hook overhead:  24.0% (0.60 ns)
+Complex function hook overhead: 1.3% (0.60 ns)
+Hook installation cost:         1.25 μs
+
+Architecture: x86_64
+```
+
+The benchmark shows that:
+- Simple function calls have a measurable overhead when hooked
+- Complex functions show minimal relative overhead since the hook overhead is constant
+- Hook installation/removal is relatively expensive and should be done sparingly
+
 ## Disclaimer
 
 This code is for educational purposes and might not work in all systems or configurations. It might violate some OS or hardware protection mechanisms. Always ensure you understand the potential consequences of your modifications.
